@@ -437,12 +437,12 @@ async def get_team_overview(start_date: date, end_date: date):
     """Get team vacation overview for a date range"""
     # Get all vacation entries in the date range
     vacation_entries = await db.vacation_entries.find({
-        "start_date": {"$lte": end_date},
-        "end_date": {"$gte": start_date}
-    }).to_list(1000)
+        "start_date": {"$lte": end_date.isoformat()},
+        "end_date": {"$gte": start_date.isoformat()}
+    }).to_list(None)
     
     # Get all employees
-    employees = await db.employees.find().to_list(1000)
+    employees = await db.employees.find().to_list(None)
     
     # Check concurrent vacations for the date range
     concurrent_check = await check_concurrent_vacations(start_date, end_date)
