@@ -1050,10 +1050,119 @@ function App() {
 
             {currentView === 'team' && (
               <div className="bg-white p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Team-Verwaltung</h2>
-                <p className="text-gray-600 mb-6">
-                  Team-Management wird implementiert...
-                </p>
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Team-Verwaltung</h2>
+                  <p className="text-gray-600">
+                    Verwalten Sie Ihre Mitarbeiter und deren Informationen.
+                  </p>
+                  <div className="mt-2 text-sm text-gray-500">
+                    Aktuell: {employees.length} Mitarbeiter • Max. gleichzeitig im Urlaub: {Math.max(1, Math.floor(employees.length * 0.3))} (30%)
+                  </div>
+                </div>
+
+                {employees.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Users className="w-16 h-16 mx-auto text-gray-300 mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Keine Mitarbeiter vorhanden</h3>
+                    <p className="text-gray-500 mb-6">Fügen Sie Ihren ersten Mitarbeiter hinzu, um zu beginnen.</p>
+                  </div>
+                ) : (
+                  <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-hidden">
+                    <table className="min-w-full divide-y divide-gray-300">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Name
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            E-Mail
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Rolle
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Urlaubstage
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Skills
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Aktionen
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {employees.sort((a, b) => {
+                          // Admins first
+                          if (a.role === 'admin' && b.role !== 'admin') return -1;
+                          if (b.role === 'admin' && a.role !== 'admin') return 1;
+                          return a.name.localeCompare(b.name);
+                        }).map((employee) => (
+                          <tr key={employee.id}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm font-medium text-gray-900">
+                                {employee.role === 'admin' && '👑 '}
+                                {employee.name}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm text-gray-900">{employee.email}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                employee.role === 'admin' 
+                                  ? 'bg-purple-100 text-purple-800' 
+                                  : employee.role === 'leiharbeiter'
+                                  ? 'bg-orange-100 text-orange-800'
+                                  : 'bg-gray-100 text-gray-800'
+                              }`}>
+                                {employee.role === 'admin' ? 'Administrator' : employee.role === 'leiharbeiter' ? 'Leiharbeiter' : 'Mitarbeiter'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {employee.vacation_days_total} Tage
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="space-y-1">
+                                {(employee.skills && employee.skills.length > 0) ? (
+                                  <>
+                                    {employee.skills.slice(0, 3).map((skill, index) => (
+                                      <div key={index} className="flex items-center space-x-2">
+                                        <span className="text-xs text-gray-600">{skill.name}</span>
+                                        <StarRating rating={skill.rating} readonly={true} />
+                                      </div>
+                                    ))}
+                                    {employee.skills.length > 3 && (
+                                      <div className="text-xs text-gray-400">
+                                        +{employee.skills.length - 3} weitere
+                                      </div>
+                                    )}
+                                  </>
+                                ) : (
+                                  <span className="text-xs text-gray-400">Keine Skills</span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                              <button
+                                onClick={() => handleEditEmployee(employee)}
+                                className="text-blue-600 hover:text-blue-900 mr-3"
+                              >
+                                <Edit2 className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteEmployee(employee)}
+                                className="text-red-600 hover:text-red-900"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             )}
           </div>
