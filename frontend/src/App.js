@@ -971,6 +971,7 @@ const YearCalendarView = ({ currentDate, vacationEntries, onMonthClick }) => {
 
 // Main App Component
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentView, setCurrentView] = useState('month');
   const [employees, setEmployees] = useState([]);
@@ -989,10 +990,37 @@ function App() {
     max_concurrent_calculated: 1
   });
 
-  // Load initial data
+  // Check authentication on app load
   useEffect(() => {
-    loadData();
+    const authStatus = localStorage.getItem('urlaubsplaner_auth');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+    setLoading(false);
   }, []);
+
+  // Load data when authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadData();
+    }
+  }, [isAuthenticated]);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('urlaubsplaner_auth');
+    setIsAuthenticated(false);
+    // Clear all data
+    setEmployees([]);
+    setVacationEntries([]);
+    setCurrentView('month');
+    setSearchTerm('');
+    setShowFilters(false);
+    setError('');
+  };
 
   const loadData = async () => {
     try {
