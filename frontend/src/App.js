@@ -881,17 +881,13 @@ function App() {
   const loadData = async () => {
     try {
       setLoading(true);
-      console.log('Loading data from API...');
-      // Add cache buster to ensure we get fresh data
+      // Add cache buster to ensure we get fresh data  
       const cacheBuster = `?t=${Date.now()}`;
       const [employeesRes, vacationRes, settingsRes] = await Promise.all([
         axios.get(`${API}/employees${cacheBuster}`),
         axios.get(`${API}/vacation-entries${cacheBuster}`),
         axios.get(`${API}/settings${cacheBuster}`)
       ]);
-      console.log('API Response - Employees count:', employeesRes.data.length);
-      console.log('API Response - First 5 employees:', employeesRes.data.slice(0, 5).map(e => e.name));
-      console.log('API Response - All employee names:', employeesRes.data.map(e => e.name));
       setEmployees(employeesRes.data);
       setVacationEntries(vacationRes.data);
       setSettings(settingsRes.data);
