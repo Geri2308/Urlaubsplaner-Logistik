@@ -263,7 +263,8 @@ const Toolbar = ({
   showFilters,
   onToggleFilters,
   employees,
-  settings
+  settings,
+  onLogout
 }) => {
   return (
     <div className="bg-white border-b border-gray-200 p-3">
@@ -362,10 +363,20 @@ const Toolbar = ({
           </button>
         </div>
 
-        {/* Settings */}
-        <button className="flex items-center px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors">
-          <Settings className="w-4 h-4" />
-        </button>
+        {/* Settings & Logout */}
+        <div className="flex items-center space-x-1">
+          <button className="flex items-center px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors">
+            <Settings className="w-4 h-4" />
+          </button>
+          <button
+            onClick={onLogout}
+            className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded transition-colors"
+            title="Abmelden"
+          >
+            <LogOut className="w-4 h-4 mr-1" />
+            Abmelden
+          </button>
+        </div>
       </div>
 
       {/* Breadcrumb/Status Bar */}
