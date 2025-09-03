@@ -1070,7 +1070,7 @@ function App() {
                   </div>
                 ) : (
                   <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-hidden">
-                    <div className="max-h-96 overflow-y-auto">
+                    <div className="team-table-scroll">
                       <table className="min-w-full divide-y divide-gray-300">
                         <thead className="bg-gray-50 sticky top-0 z-10">
                           <tr>
@@ -1176,11 +1176,11 @@ function App() {
                             Zeige alle {employees.length} Mitarbeiter
                           </span>
                           <div className="flex items-center space-x-2">
-                            <span>Scrollen für mehr</span>
+                            <span>↕ Scrollbar verfügbar</span>
                             <div className="flex space-x-1">
-                              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-                              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-                              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                              <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                              <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                              <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
                             </div>
                           </div>
                         </div>
