@@ -190,7 +190,7 @@ async def create_employee(employee_data: EmployeeCreate):
 @api_router.get("/employees", response_model=List[Employee])
 async def get_employees():
     """Get all employees"""
-    employees = await db.employees.find().to_list(1000)
+    employees = await db.employees.find().to_list(None)
     return [Employee(**emp) for emp in employees]
 
 @api_router.get("/employees/{employee_id}", response_model=Employee)
