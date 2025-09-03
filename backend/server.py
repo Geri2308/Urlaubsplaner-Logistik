@@ -297,7 +297,7 @@ async def get_vacation_entries(
     if vacation_type:
         query["vacation_type"] = vacation_type
     
-    vacation_entries = await db.vacation_entries.find(query).sort("start_date", 1).to_list(1000)
+    vacation_entries = await db.vacation_entries.find(query).sort("start_date", 1).to_list(None)
     return [VacationEntry(**entry) for entry in vacation_entries]
 
 @api_router.get("/vacation-entries/{entry_id}", response_model=VacationEntry)
