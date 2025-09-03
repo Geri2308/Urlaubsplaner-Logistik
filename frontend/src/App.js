@@ -1059,7 +1059,6 @@ function App() {
                   </p>
                   <div className="mt-2 text-sm text-gray-500">
                     Aktuell: {employees.length} Mitarbeiter • Max. gleichzeitig im Urlaub: {Math.max(1, Math.floor(employees.length * 0.3))} (30%)
-                    {console.log('Team View - Employees state:', employees.length, employees.map(e => e.name))}
                   </div>
                 </div>
 
@@ -1095,15 +1094,15 @@ function App() {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {employees.sort((a, b) => {
-                          // Admins first
-                          if (a.role === 'admin' && b.role !== 'admin') return -1;
-                          if (b.role === 'admin' && a.role !== 'admin') return 1;
-                          return a.name.localeCompare(b.name);
-                        }).map((employee, index) => {
-                          console.log(`Rendering employee ${index + 1}:`, employee.name);
-                          return (
-                            <tr key={employee.id}>
+                        {employees
+                          .sort((a, b) => {
+                            // Admins first
+                            if (a.role === 'admin' && b.role !== 'admin') return -1;
+                            if (b.role === 'admin' && a.role !== 'admin') return 1;
+                            return a.name.localeCompare(b.name);
+                          })
+                          .map((employee) => (
+                            <tr key={`employee-${employee.id}-${employee.name}`}>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm font-medium text-gray-900">
                                   {employee.role === 'admin' && '👑 '}
@@ -1132,7 +1131,7 @@ function App() {
                                   {(employee.skills && employee.skills.length > 0) ? (
                                     <>
                                       {employee.skills.slice(0, 3).map((skill, index) => (
-                                        <div key={index} className="flex items-center space-x-2">
+                                        <div key={`skill-${index}-${skill.name}`} className="flex items-center space-x-2">
                                           <span className="text-xs text-gray-600">{skill.name}</span>
                                           <StarRating rating={skill.rating} readonly={true} />
                                         </div>
@@ -1163,8 +1162,7 @@ function App() {
                                 </button>
                               </td>
                             </tr>
-                          );
-                        })}
+                          ))}
                       </tbody>
                     </table>
                   </div>
