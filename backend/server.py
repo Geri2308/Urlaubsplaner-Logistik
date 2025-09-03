@@ -421,7 +421,7 @@ async def get_employee_sick_days(employee_id: str, year: int = 2025):
         "vacation_type": VacationType.KRANKHEIT,
         "start_date": {"$gte": start_of_year.isoformat()},
         "end_date": {"$lte": end_of_year.isoformat()}
-    }).to_list(1000)
+    }).to_list(None)
     
     total_sick_days = sum(entry["days_count"] for entry in sick_entries)
     
