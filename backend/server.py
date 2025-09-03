@@ -119,7 +119,7 @@ async def check_concurrent_vacations(start_date: date, end_date: date, exclude_e
     if exclude_entry_id:
         overlap_query["id"] = {"$ne": exclude_entry_id}
     
-    overlapping_vacations = await db.vacation_entries.find(overlap_query).to_list(1000)
+    overlapping_vacations = await db.vacation_entries.find(overlap_query).to_list(None)
     
     # Get total number of employees
     total_employees = await db.employees.count_documents({})
