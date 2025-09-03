@@ -521,3 +521,105 @@ textarea:focus {
 .team-table-scroll::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* Login screen styles */
+.login-screen {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.login-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-input {
+  letter-spacing: 0.2em;
+  font-family: 'Courier New', monospace;
+}
+
+.login-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6;
+}
+
+.login-button {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+}
+
+.login-button:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+.login-button:disabled {
+  background: #9ca3af;
+  box-shadow: none;
+  transform: none;
+}
+
+.login-logo {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.3);
+}
+
+/* Login animations */
+.login-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Logout button styles */
+.logout-button {
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* Authentication status indicator */
+.auth-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(34, 197, 94, 0.9);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  backdrop-filter: blur(10px);
+}
+
+.auth-indicator.logged-out {
+  background: rgba(239, 68, 68, 0.9);
+}
