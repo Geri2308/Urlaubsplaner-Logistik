@@ -1070,101 +1070,122 @@ function App() {
                   </div>
                 ) : (
                   <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-300">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            Name
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            E-Mail
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            Rolle
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            Urlaubstage
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            Skills
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            Aktionen
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {employees
-                          .sort((a, b) => {
-                            // Admins first
-                            if (a.role === 'admin' && b.role !== 'admin') return -1;
-                            if (b.role === 'admin' && a.role !== 'admin') return 1;
-                            return a.name.localeCompare(b.name);
-                          })
-                          .map((employee) => (
-                            <tr key={`employee-${employee.id}-${employee.name}`}>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium text-gray-900">
-                                  {employee.role === 'admin' && '👑 '}
-                                  {employee.name}
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">{employee.email}</div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                  employee.role === 'admin' 
-                                    ? 'bg-purple-100 text-purple-800' 
-                                    : employee.role === 'leiharbeiter'
-                                    ? 'bg-orange-100 text-orange-800'
-                                    : 'bg-gray-100 text-gray-800'
-                                }`}>
-                                  {employee.role === 'admin' ? 'Administrator' : employee.role === 'leiharbeiter' ? 'Leiharbeiter' : 'Mitarbeiter'}
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {employee.vacation_days_total} Tage
-                              </td>
-                              <td className="px-6 py-4">
-                                <div className="space-y-1">
-                                  {(employee.skills && employee.skills.length > 0) ? (
-                                    <>
-                                      {employee.skills.slice(0, 3).map((skill, index) => (
-                                        <div key={`skill-${index}-${skill.name}`} className="flex items-center space-x-2">
-                                          <span className="text-xs text-gray-600">{skill.name}</span>
-                                          <StarRating rating={skill.rating} readonly={true} />
-                                        </div>
-                                      ))}
-                                      {employee.skills.length > 3 && (
-                                        <div className="text-xs text-gray-400">
-                                          +{employee.skills.length - 3} weitere
-                                        </div>
-                                      )}
-                                    </>
-                                  ) : (
-                                    <span className="text-xs text-gray-400">Keine Skills</span>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button
-                                  onClick={() => handleEditEmployee(employee)}
-                                  className="text-blue-600 hover:text-blue-900 mr-3"
-                                >
-                                  <Edit2 className="w-4 h-4" />
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteEmployee(employee)}
-                                  className="text-red-600 hover:text-red-900"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="max-h-96 overflow-y-auto">
+                      <table className="min-w-full divide-y divide-gray-300">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50">
+                              Name
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50">
+                              E-Mail
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50">
+                              Rolle
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50">
+                              Urlaubstage
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50">
+                              Skills
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50">
+                              Aktionen
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {employees
+                            .sort((a, b) => {
+                              // Admins first
+                              if (a.role === 'admin' && b.role !== 'admin') return -1;
+                              if (b.role === 'admin' && a.role !== 'admin') return 1;
+                              return a.name.localeCompare(b.name);
+                            })
+                            .map((employee) => (
+                              <tr key={`employee-${employee.id}-${employee.name}`}>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {employee.role === 'admin' && '👑 '}
+                                    {employee.name}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="text-sm text-gray-900">{employee.email}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                    employee.role === 'admin' 
+                                      ? 'bg-purple-100 text-purple-800' 
+                                      : employee.role === 'leiharbeiter'
+                                      ? 'bg-orange-100 text-orange-800'
+                                      : 'bg-gray-100 text-gray-800'
+                                  }`}>
+                                    {employee.role === 'admin' ? 'Administrator' : employee.role === 'leiharbeiter' ? 'Leiharbeiter' : 'Mitarbeiter'}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  {employee.vacation_days_total} Tage
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div className="space-y-1">
+                                    {(employee.skills && employee.skills.length > 0) ? (
+                                      <>
+                                        {employee.skills.slice(0, 3).map((skill, index) => (
+                                          <div key={`skill-${index}-${skill.name}`} className="flex items-center space-x-2">
+                                            <span className="text-xs text-gray-600">{skill.name}</span>
+                                            <StarRating rating={skill.rating} readonly={true} />
+                                          </div>
+                                        ))}
+                                        {employee.skills.length > 3 && (
+                                          <div className="text-xs text-gray-400">
+                                            +{employee.skills.length - 3} weitere
+                                          </div>
+                                        )}
+                                      </>
+                                    ) : (
+                                      <span className="text-xs text-gray-400">Keine Skills</span>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                  <button
+                                    onClick={() => handleEditEmployee(employee)}
+                                    className="text-blue-600 hover:text-blue-900 mr-3"
+                                  >
+                                    <Edit2 className="w-4 h-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteEmployee(employee)}
+                                    className="text-red-600 hover:text-red-900"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    {/* Scroll Indicator */}
+                    {employees.length > 8 && (
+                      <div className="bg-gray-50 px-6 py-2 border-t border-gray-200 text-center">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
+                          <span>
+                            Zeige alle {employees.length} Mitarbeiter
+                          </span>
+                          <div className="flex items-center space-x-2">
+                            <span>Scrollen für mehr</span>
+                            <div className="flex space-x-1">
+                              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
