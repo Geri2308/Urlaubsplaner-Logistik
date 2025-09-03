@@ -388,9 +388,9 @@ async def get_employee_vacation_summary(employee_id: str, year: int = 2025):
     
     vacation_entries = await db.vacation_entries.find({
         "employee_id": employee_id,
-        "start_date": {"$gte": start_of_year},
-        "end_date": {"$lte": end_of_year}
-    }).to_list(1000)
+        "start_date": {"$gte": start_of_year.isoformat()},
+        "end_date": {"$lte": end_of_year.isoformat()}
+    }).to_list(None)
     
     # Calculate totals by type
     urlaub_days = sum(entry["days_count"] for entry in vacation_entries if entry["vacation_type"] == VacationType.URLAUB)
