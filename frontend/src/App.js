@@ -1061,6 +1061,7 @@ function App() {
                   </p>
                   <div className="mt-2 text-sm text-gray-500">
                     Aktuell: {employees.length} Mitarbeiter • Max. gleichzeitig im Urlaub: {Math.max(1, Math.floor(employees.length * 0.3))} (30%)
+                    {console.log('Team View - Employees state:', employees.length, employees.map(e => e.name))}
                   </div>
                 </div>
 
@@ -1101,68 +1102,71 @@ function App() {
                           if (a.role === 'admin' && b.role !== 'admin') return -1;
                           if (b.role === 'admin' && a.role !== 'admin') return 1;
                           return a.name.localeCompare(b.name);
-                        }).map((employee) => (
-                          <tr key={employee.id}>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm font-medium text-gray-900">
-                                {employee.role === 'admin' && '👑 '}
-                                {employee.name}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm text-gray-900">{employee.email}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                employee.role === 'admin' 
-                                  ? 'bg-purple-100 text-purple-800' 
-                                  : employee.role === 'leiharbeiter'
-                                  ? 'bg-orange-100 text-orange-800'
-                                  : 'bg-gray-100 text-gray-800'
-                              }`}>
-                                {employee.role === 'admin' ? 'Administrator' : employee.role === 'leiharbeiter' ? 'Leiharbeiter' : 'Mitarbeiter'}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {employee.vacation_days_total} Tage
-                            </td>
-                            <td className="px-6 py-4">
-                              <div className="space-y-1">
-                                {(employee.skills && employee.skills.length > 0) ? (
-                                  <>
-                                    {employee.skills.slice(0, 3).map((skill, index) => (
-                                      <div key={index} className="flex items-center space-x-2">
-                                        <span className="text-xs text-gray-600">{skill.name}</span>
-                                        <StarRating rating={skill.rating} readonly={true} />
-                                      </div>
-                                    ))}
-                                    {employee.skills.length > 3 && (
-                                      <div className="text-xs text-gray-400">
-                                        +{employee.skills.length - 3} weitere
-                                      </div>
-                                    )}
-                                  </>
-                                ) : (
-                                  <span className="text-xs text-gray-400">Keine Skills</span>
-                                )}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                              <button
-                                onClick={() => handleEditEmployee(employee)}
-                                className="text-blue-600 hover:text-blue-900 mr-3"
-                              >
-                                <Edit2 className="w-4 h-4" />
-                              </button>
-                              <button
-                                onClick={() => handleDeleteEmployee(employee)}
-                                className="text-red-600 hover:text-red-900"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
+                        }).map((employee, index) => {
+                          console.log(`Rendering employee ${index + 1}:`, employee.name);
+                          return (
+                            <tr key={employee.id}>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm font-medium text-gray-900">
+                                  {employee.role === 'admin' && '👑 '}
+                                  {employee.name}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">{employee.email}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                  employee.role === 'admin' 
+                                    ? 'bg-purple-100 text-purple-800' 
+                                    : employee.role === 'leiharbeiter'
+                                    ? 'bg-orange-100 text-orange-800'
+                                    : 'bg-gray-100 text-gray-800'
+                                }`}>
+                                  {employee.role === 'admin' ? 'Administrator' : employee.role === 'leiharbeiter' ? 'Leiharbeiter' : 'Mitarbeiter'}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {employee.vacation_days_total} Tage
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="space-y-1">
+                                  {(employee.skills && employee.skills.length > 0) ? (
+                                    <>
+                                      {employee.skills.slice(0, 3).map((skill, index) => (
+                                        <div key={index} className="flex items-center space-x-2">
+                                          <span className="text-xs text-gray-600">{skill.name}</span>
+                                          <StarRating rating={skill.rating} readonly={true} />
+                                        </div>
+                                      ))}
+                                      {employee.skills.length > 3 && (
+                                        <div className="text-xs text-gray-400">
+                                          +{employee.skills.length - 3} weitere
+                                        </div>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <span className="text-xs text-gray-400">Keine Skills</span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button
+                                  onClick={() => handleEditEmployee(employee)}
+                                  className="text-blue-600 hover:text-blue-900 mr-3"
+                                >
+                                  <Edit2 className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteEmployee(employee)}
+                                  className="text-red-600 hover:text-red-900"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
